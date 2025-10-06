@@ -14,16 +14,8 @@
     *{box-sizing:border-box}
     html,body{
       margin:0;
-      min-height:100vh;
-      min-height:100dvh;
       min-height:100svh;
-    }
-
-    body{
-      display:grid;
-      place-items:end center; /* widżet na dole, pośrodku */
-      padding:0;
-      /* Tonalne tło łączące barwy obu flag (bez figur geometrycznych) */
+      min-height:100dvh;
       background:
         radial-gradient(120% 120% at 18% 22%,
           rgba(0,87,183,.60), rgba(255,215,0,.50) 55%, rgba(0,0,0,0) 70%),
@@ -31,23 +23,39 @@
           rgba(186,12,47,.65), rgba(0,32,91,.60) 60%, rgba(0,0,0,0) 75%),
         linear-gradient(135deg, #0e2238 0%, #3a0f18 100%);
       background-attachment: fixed;
+      overflow-x:hidden;
     }
 
     /* Sam element widżetu, bez dodatkowych ozdób */
-    elevenlabs-convai{
+    #dock > elevenlabs-convai{
       display:block;
-      width:min(92vw, 520px);
-      max-height:min(86svh, 680px);
-      aspect-ratio: 9 / 16; /* czytelne proporcje na mobile */
+      width:100%;
+      height:clamp(380px, 78svh, 620px); /* jawna wysokość dla pełnej widoczności */
+      max-height:unset;
+      border-radius:18px; /* delikatne uwidocznienie obszaru widżetu */
+      background:rgba(0,0,0,0.06);
+      box-shadow:0 8px 28px rgba(0,0,0,.25);
+      overflow:hidden;
     }
 
     @media (max-width:480px){
       elevenlabs-convai{ width:94vw; }
     }
-  </style>
+    /* Dokładne pozycjonowanie widżetu: środek poziomo, dół pionowo */
+    #dock{
+      position:fixed;
+      left:50%;
+      bottom:0; /* dokładnie przy dolnej krawędzi, z uwzględnieniem safe-area przez przeglądarkę */
+      transform:translateX(-50%);
+      width:min(92vw, 520px);
+      z-index:10;
+    }
+</style>
 </head>
 <body>
-  <elevenlabs-convai agent-id="agent_0901k6wgrtfjf69v1sxt7scnhnjz"></elevenlabs-convai>
+  <div id="dock">
+    <elevenlabs-convai agent-id="agent_0901k6wgrtfjf69v1sxt7scnhnjz"></elevenlabs-convai>
+  </div>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </body>
 </html>
