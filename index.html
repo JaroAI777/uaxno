@@ -30,11 +30,8 @@
     #dock > elevenlabs-convai{
       display:block;
       width:100%;
-      height:clamp(380px, 78svh, 620px); /* jawna wysokość dla pełnej widoczności */
-      max-height:unset;
-      border-radius:18px; /* delikatne uwidocznienie obszaru widżetu */
-      background:rgba(0,0,0,0.06);
-      box-shadow:0 8px 28px rgba(0,0,0,.25);
+      height:100%;
+      border-radius:18px;
       overflow:hidden;
     }
 
@@ -45,17 +42,39 @@
     #dock{
       position:fixed;
       left:50%;
-      bottom:0; /* dokładnie przy dolnej krawędzi, z uwzględnieniem safe-area przez przeglądarkę */
+      bottom:0; /* dokładnie na dole */
       transform:translateX(-50%);
       width:min(92vw, 520px);
+      height:clamp(380px, 78svh, 620px);
+      display:grid;
+      place-items:center; /* środek poziomo wewnątrz kontenera */
       z-index:10;
     }
+  /* Placeholder – widoczny TYLKO gdy komponent nie jest zdefiniowany */
+    #dock::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:18px;
+      background:rgba(255,255,255,0.06);
+      box-shadow:0 8px 28px rgba(0,0,0,.25);
+    }
+    .convai-ready #dock::after{ display:none; }
 </style>
 </head>
 <body>
   <div id="dock">
     <elevenlabs-convai agent-id="agent_0901k6wgrtfjf69v1sxt7scnhnjz"></elevenlabs-convai>
   </div>
+  <script>
+    (function(){
+      if (window.customElements && customElements.whenDefined) {
+        customElements.whenDefined('elevenlabs-convai').then(function(){
+          document.documentElement.classList.add('convai-ready');
+        });
+      }
+    })();
+  </script>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </body>
 </html>
