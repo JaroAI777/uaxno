@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UA × NO</title>
+  <title>UA × NO — Minimal</title>
   <style>
     :root{
       --ua-blue:#0057b7; /* Ukraina – niebieski */
@@ -11,11 +11,9 @@
       --no-red:#ba0c2f;   /* Norwegia – czerwony */
       --no-blue:#00205b;  /* Norwegia – granat */
     }
-    *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      min-height:100svh;
-      min-height:100dvh;
+    html, body { height:100%; margin:0; }
+    /* Tylko tło strony w barwach UA i NO. Nie stylizujemy ani nie pozycjonujemy widżetu. */
+    body{
       background:
         radial-gradient(120% 120% at 18% 22%,
           rgba(0,87,183,.60), rgba(255,215,0,.50) 55%, rgba(0,0,0,0) 70%),
@@ -23,58 +21,12 @@
           rgba(186,12,47,.65), rgba(0,32,91,.60) 60%, rgba(0,0,0,0) 75%),
         linear-gradient(135deg, #0e2238 0%, #3a0f18 100%);
       background-attachment: fixed;
-      overflow-x:hidden;
     }
-
-    /* Sam element widżetu, bez dodatkowych ozdób */
-    #dock > elevenlabs-convai{
-      display:block;
-      width:100%;
-      height:100%;
-      border-radius:18px;
-      overflow:hidden;
-    }
-
-    @media (max-width:480px){
-      elevenlabs-convai{ width:94vw; }
-    }
-    /* Dokładne pozycjonowanie widżetu: środek poziomo, dół pionowo */
-    #dock{
-      position:fixed;
-      left:50%;
-      bottom:0; /* dokładnie na dole */
-      transform:translateX(-50%);
-      width:min(92vw, 520px);
-      height:clamp(380px, 78svh, 620px);
-      display:grid;
-      place-items:center; /* środek poziomo wewnątrz kontenera */
-      z-index:10;
-    }
-  /* Placeholder – widoczny TYLKO gdy komponent nie jest zdefiniowany */
-    #dock::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:18px;
-      background:rgba(255,255,255,0.06);
-      box-shadow:0 8px 28px rgba(0,0,0,.25);
-    }
-    .convai-ready #dock::after{ display:none; }
-</style>
+  </style>
 </head>
 <body>
-  <div id="dock">
-    <elevenlabs-convai agent-id="agent_0901k6wgrtfjf69v1sxt7scnhnjz"></elevenlabs-convai>
-  </div>
-  <script>
-    (function(){
-      if (window.customElements && customElements.whenDefined) {
-        customElements.whenDefined('elevenlabs-convai').then(function(){
-          document.documentElement.classList.add('convai-ready');
-        });
-      }
-    })();
-  </script>
+  <!-- Widżet bez jakichkolwiek stylów i pozycjonowania narzuconego z naszej strony -->
+  <elevenlabs-convai agent-id="agent_0901k6wgrtfjf69v1sxt7scnhnjz"></elevenlabs-convai>
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </body>
 </html>
